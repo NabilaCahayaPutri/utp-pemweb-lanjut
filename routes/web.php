@@ -26,6 +26,18 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/beranda', [HomeController::class, 'index'])->name('beranda');
+
+    Route::get('/riwayat', [LaporanController::class, 'index'])->name('riwayat');
+    Route::get('/buat-laporan', [LaporanController::class, 'create'])->name('buat-laporan');
+    Route::post('/buat-laporan', [LaporanController::class, 'store'])->name('laporan.store');
+    Route::get('/laporan/{id}/edit', [LaporanController::class, 'edit'])->name('laporan.edit'); 
+    Route::put('/laporan/{id}', [LaporanController::class, 'update'])->name('laporan.update'); 
+    Route::delete('/laporan/{id}', [LaporanController::class, 'destroy'])->name('laporan.destroy');
+
+    Route::get('/profil', [UserController::class, 'index'])->name('profil');
+    Route::post('/profil', [UserController::class, 'update'])->name('profil.update');
+    Route::post('/ubah-password', [UserController::class, 'updatePassword'])->name('ubah-password');
+});
