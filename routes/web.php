@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +44,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profil', [UserController::class, 'index'])->name('profil');
     Route::post('/profil', [UserController::class, 'update'])->name('profil.update');
     Route::post('/ubah-password', [UserController::class, 'updatePassword'])->name('ubah-password');
+
 });
