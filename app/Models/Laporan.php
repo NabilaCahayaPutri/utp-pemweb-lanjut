@@ -25,4 +25,5 @@ class Laporan extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
 }
