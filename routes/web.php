@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -30,9 +32,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-
     Route::get('/beranda', [HomeController::class, 'index'])->name('beranda');
+    Route::get('/setting', [UserController::class, 'index'])->name('setting');
+    Route::post('/setting/update', [UserController::class, 'updateProfile'])->name('setting.update');
+    Route::post('/setting/password', [UserController::class, 'updatePassword'])->name('setting.password');
 
     Route::get('/riwayat', [LaporanController::class, 'index'])->name('riwayat');
     Route::get('/buat-laporan', [LaporanController::class, 'create'])->name('buat-laporan');
@@ -41,8 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/laporan/{id}', [LaporanController::class, 'update'])->name('laporan.update'); 
     Route::delete('/laporan/{id}', [LaporanController::class, 'destroy'])->name('laporan.destroy');
 
-    Route::get('/profil', [UserController::class, 'index'])->name('profil');
-    Route::post('/profil', [UserController::class, 'update'])->name('profil.update');
-    Route::post('/ubah-password', [UserController::class, 'updatePassword'])->name('ubah-password');
-
+Route::middleware('auth')->group(function () {
+    Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
+    Route::post('/profil/update', [ProfileController::class, 'update'])->name('profil.update');
+    Route::post('/profil/password', [ProfileController::class, 'updatePassword'])->name('profil.password');
+    Route::delete('/profil/photo', [ProfileController::class, 'deletePhoto'])->name('profil.deletePhoto');
 });
